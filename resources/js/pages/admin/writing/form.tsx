@@ -1,0 +1,200 @@
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem, type Writing } from '@/types';
+import { Input, Textarea } from '@headlessui/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Writing Form',
+        href: '/admin-writing',
+    },
+];
+
+type WritingForm = {
+    thumbnail: File | string;
+    title: string;
+    slug: string;
+    teaser: string;
+    body: string;
+    meta_title: string;
+    meta_description: string;
+    author: string;
+};
+
+export default function WritingForm() {
+    const { writing } = usePage<{ writing: Writing }>().props;
+    const isEditMode = !!writing;
+
+    const { data, setData, post, errors, processing, reset } = useForm<Required<WritingForm>>({
+        thumbnail: writing?.thumbnail || '',
+        title: writing?.title || '',
+        slug: writing?.slug || '',
+        teaser: writing?.teaser || '',
+        body: writing?.body || '',
+        meta_title: writing?.meta_title || '',
+        meta_description: writing?.meta_description || '',
+        author: writing?.author || '',
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        if (isEditMode) {
+            post(route('admin.writing.update', writing.id), {
+                onFinish: () => reset('thumbnail', 'title', 'slug', 'body', 'meta_title', 'meta_description', 'author'),
+            });
+        } else {
+            post(route('admin.writing.store'), {
+                onFinish: () => reset('thumbnail', 'title', 'slug', 'body', 'meta_title', 'meta_description', 'author'),
+            });
+        }
+    };
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Writing Form" />
+            <div className="p-4">
+                <form onSubmit={submit} className="space-y-6">
+                    <div className="grid grid-cols-1 gap-4 space-y-6 md:grid-cols-2">
+                        <div className="grid gap-2">
+                            <Label htmlFor="thumbnail">Thumbnail</Label>
+
+                            <Input
+                                id="thumbnail"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="thumbnail"
+                                placeholder="Thumbnail"
+                                onChange={(e) => setData('thumbnail', e?.target?.files?.[0] || '')}
+                                type="file"
+                            />
+
+                            <InputError className="mt-2" message={errors.thumbnail} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="author">Author</Label>
+
+                            <Input
+                                id="author"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="author"
+                                placeholder="Author"
+                                value={data.author}
+                                onChange={(e) => setData('author', e.target.value)}
+                            />
+
+                            <InputError className="mt-2" message={errors.author} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="title">Title</Label>
+
+                            <Input
+                                id="title"
+                                className="mt-1 block w-full"
+                                value={data.title}
+                                onChange={(e) => setData('title', e.target.value)}
+                                required
+                                autoComplete="title"
+                                placeholder="Title"
+                            />
+
+                            <InputError className="mt-2" message={errors.title} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="slug">Slug</Label>
+
+                            <Input
+                                id="slug"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="slug"
+                                placeholder="Slug"
+                                value={data.slug}
+                                onChange={(e) => setData('slug', e.target.value)}
+                            />
+                            <InputError className="mt-2" message={errors.slug} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="teaser">Teaser</Label>
+
+                            <Input
+                                id="teaser"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="teaser"
+                                placeholder="Teaser"
+                                value={data.teaser}
+                                onChange={(e) => setData('teaser', e.target.value)}
+                            />
+                            <InputError className="mt-2" message={errors.teaser} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="meta-title">Meta Title</Label>
+
+                            <Input
+                                id="meta-title"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="meta-title"
+                                placeholder="Meta Title"
+                                value={data.meta_title}
+                                onChange={(e) => setData('meta_title', e.target.value)}
+                            />
+
+                            <InputError className="mt-2" message={errors.meta_title} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="meta_description">Meta Description</Label>
+
+                            <Input
+                                id="meta_description"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="meta_description"
+                                placeholder="Meta Description"
+                                value={data.meta_description}
+                                onChange={(e) => setData('meta_description', e.target.value)}
+                            />
+
+                            <InputError className="mt-2" message={errors.meta_description} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="body">Body</Label>
+
+                            <Textarea
+                                id="body"
+                                className="mt-1 block w-full"
+                                required
+                                autoComplete="body"
+                                placeholder="Body"
+                                value={data.body}
+                                onChange={(e) => setData('body', e.target.value)}
+                            />
+
+                            <InputError className="mt-2" message={errors.body} />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-4">
+                        <Link disabled={processing} href={'/admin-writing'} prefetch>
+                            <Button variant="secondary">Back</Button>
+                        </Link>
+
+                        <Button disabled={processing}>Save</Button>
+                    </div>
+                </form>
+            </div>
+        </AppLayout>
+    );
+}
