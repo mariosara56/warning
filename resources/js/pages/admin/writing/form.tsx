@@ -1,9 +1,10 @@
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import WysiwygEditor from '@/components/wysiwyg-editor';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Writing } from '@/types';
-import { Input, Textarea } from '@headlessui/react';
+import { Input } from '@headlessui/react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
@@ -17,11 +18,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 type WritingForm = {
     thumbnail: File | string;
     title: string;
-    slug: string;
     teaser: string;
     body: string;
-    meta_title: string;
-    meta_description: string;
     author: string;
 };
 
@@ -32,11 +30,8 @@ export default function WritingForm() {
     const { data, setData, post, errors, processing, reset } = useForm<Required<WritingForm>>({
         thumbnail: writing?.thumbnail || '',
         title: writing?.title || '',
-        slug: writing?.slug || '',
         teaser: writing?.teaser || '',
         body: writing?.body || '',
-        meta_title: writing?.meta_title || '',
-        meta_description: writing?.meta_description || '',
         author: writing?.author || '',
     });
 
@@ -44,11 +39,11 @@ export default function WritingForm() {
         e.preventDefault();
         if (isEditMode) {
             post(route('admin.writing.update', writing.id), {
-                onFinish: () => reset('thumbnail', 'title', 'slug', 'body', 'meta_title', 'meta_description', 'author'),
+                onFinish: () => reset('thumbnail', 'title', 'body', 'author'),
             });
         } else {
             post(route('admin.writing.store'), {
-                onFinish: () => reset('thumbnail', 'title', 'slug', 'body', 'meta_title', 'meta_description', 'author'),
+                onFinish: () => reset('thumbnail', 'title', 'body', 'author'),
             });
         }
     };
@@ -108,21 +103,6 @@ export default function WritingForm() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="slug">Slug</Label>
-
-                            <Input
-                                id="slug"
-                                className="mt-1 block w-full"
-                                required
-                                autoComplete="slug"
-                                placeholder="Slug"
-                                value={data.slug}
-                                onChange={(e) => setData('slug', e.target.value)}
-                            />
-                            <InputError className="mt-2" message={errors.slug} />
-                        </div>
-
-                        <div className="grid gap-2">
                             <Label htmlFor="teaser">Teaser</Label>
 
                             <Input
@@ -138,49 +118,9 @@ export default function WritingForm() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="meta-title">Meta Title</Label>
-
-                            <Input
-                                id="meta-title"
-                                className="mt-1 block w-full"
-                                required
-                                autoComplete="meta-title"
-                                placeholder="Meta Title"
-                                value={data.meta_title}
-                                onChange={(e) => setData('meta_title', e.target.value)}
-                            />
-
-                            <InputError className="mt-2" message={errors.meta_title} />
-                        </div>
-
-                        <div className="grid gap-2">
-                            <Label htmlFor="meta_description">Meta Description</Label>
-
-                            <Input
-                                id="meta_description"
-                                className="mt-1 block w-full"
-                                required
-                                autoComplete="meta_description"
-                                placeholder="Meta Description"
-                                value={data.meta_description}
-                                onChange={(e) => setData('meta_description', e.target.value)}
-                            />
-
-                            <InputError className="mt-2" message={errors.meta_description} />
-                        </div>
-
-                        <div className="grid gap-2">
                             <Label htmlFor="body">Body</Label>
 
-                            <Textarea
-                                id="body"
-                                className="mt-1 block w-full"
-                                required
-                                autoComplete="body"
-                                placeholder="Body"
-                                value={data.body}
-                                onChange={(e) => setData('body', e.target.value)}
-                            />
+                            <WysiwygEditor value={data.body} onChange={(e) => setData('body', e.target.value)} />
 
                             <InputError className="mt-2" message={errors.body} />
                         </div>

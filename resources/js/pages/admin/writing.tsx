@@ -21,14 +21,11 @@ const columns = [
         accessor: (item: Writing) => <img src={`/storage/${item.thumbnail}`} alt={item.title} className="h-12 w-12 rounded object-cover" />,
     },
     { header: 'Title', accessor: 'title' },
-    { header: 'Slug', accessor: 'slug' },
     { header: 'Teaser', accessor: 'teaser' },
     {
         header: 'Body',
         accessor: (item: Writing) => <div className="line-clamp-2 max-w-xs overflow-hidden text-ellipsis">{item.body}</div>,
     },
-    { header: 'Meta Title', accessor: 'meta_title' },
-    { header: 'Meta Description', accessor: 'meta_description' },
     { header: 'Author', accessor: 'author' },
 ];
 

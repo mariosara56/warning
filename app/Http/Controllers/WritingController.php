@@ -6,12 +6,13 @@ use App\Models\Writing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class WritingController extends Controller
 {
     public function __invoke()
     {
-        $writings = Writing::orderBy('created_at', 'asc')->paginate(3);
+        $writings = Writing::orderBy('created_at', 'desc')->paginate(3);
 
         return Inertia::render('writing', [
             'writings' => $writings
@@ -20,7 +21,7 @@ class WritingController extends Controller
 
     public function index()
     {
-        $writings = Writing::orderBy('created_at', 'asc')->paginate(10);
+        $writings = Writing::orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('admin/writing', [
             'writings' => $writings
@@ -34,31 +35,48 @@ class WritingController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi dapat diaktifkan jika dibutuhkan
+        // Validasi jika dibutuhkan
         /*
         $request->validate([
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:writings,slug',
             'teaser' => 'required|string|max:255',
             'body' => 'required|string',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:255',
             'author' => 'nullable|string|max:255',
         ]);
         */
 
+        $title = $request->input('title');
+        $author = $request->input('author');
+        $teaser = $request->input('teaser');
+
+        // Generate slug dari title
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        // Pastikan slug unik
+        while (Writing::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+
+        // Generate meta_title dan meta_description
+        $metaTitle = $title . ($author ? " - $author" : '');
+        $metaDescription = $teaser . ($author ? " - ditulis oleh $author" : '');
+
+        // Upload thumbnail
         $path = $request->file('thumbnail')->store('writing', 'public');
 
+        // Simpan ke database
         Writing::create([
             'thumbnail' => $path,
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'teaser' => $request->input('teaser'),
+            'title' => $title,
+            'slug' => $slug,
+            'teaser' => $teaser,
             'body' => $request->input('body'),
-            'meta_title' => $request->input('meta_title'),
-            'meta_description' => $request->input('meta_description'),
-            'author' => $request->input('author'),
+            'meta_title' => $metaTitle,
+            'meta_description' => $metaDescription,
+            'author' => $author,
         ]);
 
         return redirect()
@@ -90,14 +108,31 @@ class WritingController extends Controller
             $writing->thumbnail = $path;
         }
 
+        $title = $request->input('title');
+        $author = $request->input('author');
+        $teaser = $request->input('teaser');
+
+        // Cek apakah title berubah → regenerate slug
+        if ($title !== $writing->title) {
+            $baseSlug = Str::slug($title);
+            $slug = $baseSlug;
+            $counter = 1;
+
+            // Pastikan slug unik (kecuali milik record ini sendiri)
+            while (Writing::where('slug', $slug)->where('id', '!=', $id)->exists()) {
+                $slug = $baseSlug . '-' . $counter++;
+            }
+
+            $writing->slug = $slug;
+        }
+
         // Update field lainnya
-        $writing->title = $request->input('title');
-        $writing->slug = $request->input('slug');
-        $writing->teaser = $request->input('teaser');
+        $writing->title = $title;
+        $writing->teaser = $teaser;
         $writing->body = $request->input('body');
-        $writing->meta_title = $request->input('meta_title');
-        $writing->meta_description = $request->input('meta_description');
-        $writing->author = $request->input('author');
+        $writing->meta_title = $title . ($author ? " - $author" : '');
+        $writing->meta_description = $teaser . ($author ? " - ditulis oleh $author" : '');
+        $writing->author = $author;
 
         $writing->save();
 
@@ -105,6 +140,7 @@ class WritingController extends Controller
             ->route('admin.writing')
             ->with('success', 'Writing updated successfully.');
     }
+
 
     public function destroy(int $id)
     {

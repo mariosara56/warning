@@ -17,8 +17,8 @@ export default function Writing() {
                         <Link href={`/writings/${item.slug}`} prefetch>
                             <Card className="flex h-full flex-col p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900">
                                 <CardTitle className="line-clamp-2 min-h-8 overflow-hidden text-ellipsis">{item.title}</CardTitle>
-                                <CardContent>
-                                    <div className="mb-4 flex items-center justify-center">
+                                <CardContent className="flex flex-col gap-4">
+                                    <div className="flex items-center justify-center">
                                         <div className="h-64 w-64 overflow-hidden rounded-2xl border-4 border-[#19140035] md:h-80 md:w-80 dark:border-[#3E3E3A]">
                                             <div className="h-full w-full bg-gray-200 dark:bg-gray-700">
                                                 <img src={`/storage/${item.thumbnail}`} alt={item.title} className="h-full w-full object-cover" />

@@ -11,7 +11,7 @@ class GalleryController extends Controller
 {
     public function __invoke()
     {
-        $galleries = Gallery::orderBy('created_at', 'asc')->paginate(6);
+        $galleries = Gallery::orderBy('created_at', 'desc')->paginate(6);
 
         return Inertia::render('gallery', [
             'galleries' => $galleries
@@ -20,7 +20,7 @@ class GalleryController extends Controller
 
     public function index()
     {
-        $galleries = Gallery::orderBy('created_at', 'asc')->paginate(10);
+        $galleries = Gallery::orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('admin/gallery', [
             'galleries' => $galleries

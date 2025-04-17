@@ -14,9 +14,9 @@ class HomeController extends Controller
             ->orderBy('created_at', 'asc')
             ->paginate(1);
 
-        $galleries = Gallery::orderBy('created_at', 'asc')->paginate(6);
+        $galleries = Gallery::orderBy('created_at', 'desc')->paginate(6);
 
-        $writings = Writing::orderBy('created_at', 'asc')->paginate(3);
+        $writings = Writing::orderBy('created_at', 'desc')->paginate(3);
 
         return inertia('home', [
             'abouts' => $abouts,
