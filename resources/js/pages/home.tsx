@@ -10,7 +10,7 @@ export default function Home() {
     const { abouts } = usePage<{ abouts: PaginatedResponse<About> }>().props;
     const { galleries } = usePage<{ galleries: PaginatedResponse<Gallery> }>().props;
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
-    const { quotes } = usePage<{ quotes: PaginatedResponse<Quote> }>().props;
+    const { quotes } = usePage<{ quotes: Quote[] }>().props;
 
     return (
         <MainLayout>
@@ -179,7 +179,7 @@ export default function Home() {
                         Inspiring Quotes
                     </h2>
                     <div className="grid gap-6 md:grid-cols-3">
-                        {quotes.data?.map((item, index) => (
+                        {quotes?.map((item, index) => (
                             <Card
                                 className="flex flex-col justify-between p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900"
                                 key={index}

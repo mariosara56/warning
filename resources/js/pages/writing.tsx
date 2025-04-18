@@ -7,7 +7,7 @@ import { Link, usePage } from '@inertiajs/react';
 
 export default function Writing() {
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
-    const { quotes } = usePage<{ quotes: PaginatedResponse<Quote> }>().props;
+    const { quotes } = usePage<{ quotes: Quote[] }>().props;
 
     return (
         <MainLayout>
@@ -55,7 +55,7 @@ export default function Writing() {
                     </h2>
 
                     <div className="grid gap-6 md:grid-cols-3">
-                        {quotes.data?.map((item, index) => (
+                        {quotes.map((item, index) => (
                             <Card
                                 className="flex flex-col justify-between p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900"
                                 key={index}
