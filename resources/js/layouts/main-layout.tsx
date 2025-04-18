@@ -32,7 +32,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
             </Head>
 
             <div
-                className={`sticky top-0 z-50 flex flex-col items-center text-[#1b1b18] transition-all duration-300 ease-in-out ${isSticky ? 'bg-white/80 py-3 shadow-md backdrop-blur' : 'bg-[#FDFDFC] py-4'} dark:${isSticky ? 'bg-[#0a0a0a]/80' : 'bg-[#0a0a0a]'} `}
+                className={`sticky top-0 z-50 flex flex-col items-center text-[#1b1b18] transition-all duration-300 ease-in-out ${isSticky ? 'bg-white/80 py-3 shadow-md backdrop-blur' : 'bg-[#FDFDFC] py-4'} ${isSticky ? 'dark:bg-[#0a0a0a]/80' : 'dark:bg-[#0a0a0a]'} `}
             >
                 <header className="w-full px-6 text-sm not-has-[nav]:hidden lg:px-8">
                     {/* Mobile menu button */}
