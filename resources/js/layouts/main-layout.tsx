@@ -1,12 +1,28 @@
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { Menu, X } from 'lucide-react';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
 export default function MainLayout({ children }: PropsWithChildren) {
     const { auth } = usePage<SharedData>().props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isSticky, setIsSticky] = useState(false);
     const currentPath = window.location.pathname;
+
+    // Handle scroll event to detect when navbar should be sticky
+    useEffect(() => {
+        const handleScroll = () => {
+            // Make navbar sticky after scrolling down 100px
+            setIsSticky(window.scrollY > 100);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean up event listener
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <div className="flex min-h-screen flex-col">
@@ -15,7 +31,9 @@ export default function MainLayout({ children }: PropsWithChildren) {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            <div className="flex flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
+            <div
+                className={`sticky top-0 z-50 flex flex-col items-center text-[#1b1b18] transition-all duration-300 ease-in-out ${isSticky ? 'bg-white/80 py-3 shadow-md backdrop-blur' : 'bg-[#FDFDFC] py-4'} dark:${isSticky ? 'bg-[#0a0a0a]/80' : 'bg-[#0a0a0a]'} `}
+            >
                 <header className="w-full px-6 text-sm not-has-[nav]:hidden lg:px-8">
                     {/* Mobile menu button */}
                     <div className="flex justify-end md:hidden">
@@ -28,7 +46,6 @@ export default function MainLayout({ children }: PropsWithChildren) {
                         </button>
                     </div>
 
-                    {/* Navigation */}
                     <nav
                         className={`${mobileMenuOpen ? 'flex' : 'hidden'} mt-4 flex-col gap-4 md:mt-0 md:flex md:flex-row md:items-center md:justify-end`}
                     >
@@ -91,7 +108,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
 
             <main className="flex-1">{children}</main>
 
-            <footer className="bg-[#121212] py-8 text-center dark:bg-gray-50">
+            <footer className="bg-[#121212] py-4 text-center dark:bg-gray-50">
                 <div className="container mx-auto max-w-7xl px-6">
                     <p className="text-sm text-gray-400 dark:text-gray-600">© {new Date().getFullYear()} Ekklesia. All rights reserved.</p>
                 </div>
