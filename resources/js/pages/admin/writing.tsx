@@ -24,7 +24,9 @@ const columns = [
     { header: 'Teaser', accessor: 'teaser' },
     {
         header: 'Body',
-        accessor: (item: Writing) => <div className="line-clamp-2 max-w-xs overflow-hidden text-ellipsis">{item.body}</div>,
+        accessor: (item: Writing) => (
+            <div className="line-clamp-2 max-w-xs overflow-hidden text-ellipsis" dangerouslySetInnerHTML={{ __html: item.body }} />
+        ),
     },
     { header: 'Author', accessor: 'author' },
 ];

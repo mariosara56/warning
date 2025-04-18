@@ -113,7 +113,7 @@ export default function Home() {
                                     <img src={`/storage/${item?.thumbnail}`} alt={item?.title} className="h-full w-full object-cover" />
                                 </CardTitle>
                                 <CardContent>
-                                    <CardDescription>{item.description}</CardDescription>
+                                    <CardDescription dangerouslySetInnerHTML={{ __html: item.description ?? '' }} />
                                 </CardContent>
                             </Card>
                         ))}

@@ -1,9 +1,10 @@
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import WysiwygEditor from '@/components/wysiwyg-editor';
 import AppLayout from '@/layouts/app-layout';
 import { Gallery, type BreadcrumbItem } from '@/types';
-import { Input, Textarea } from '@headlessui/react';
+import { Input } from '@headlessui/react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
@@ -86,15 +87,7 @@ export default function GalleryForm() {
                         <div className="grid gap-2">
                             <Label htmlFor="description">Description</Label>
 
-                            <Textarea
-                                id="description"
-                                className="mt-1 block w-full"
-                                required
-                                autoComplete="description"
-                                placeholder="Description"
-                                value={data.description}
-                                onChange={(e) => setData('description', e.target.value)}
-                            />
+                            <WysiwygEditor value={data.description} onChange={(e) => setData('description', e.target.value)} />
 
                             <InputError className="mt-2" message={errors.description} />
                         </div>
