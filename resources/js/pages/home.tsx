@@ -12,14 +12,12 @@ export default function Home() {
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
     const { quotes } = usePage<{ quotes: PaginatedResponse<Quote> }>().props;
 
-    console.log('writings', writings);
-
     return (
         <MainLayout>
             {/* Hero Section */}
             <section className="container mx-auto min-h-screen max-w-7xl px-6 py-16">
                 <div className="grid gap-12 md:grid-cols-2 md:items-center">
-                    <div>
+                    <div className="animate__animated animate__fadeIn animate__delay-200ms animate__duration-1500ms">
                         <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl dark:text-[#EDEDEC]">{abouts.data?.[0]?.fullname}</h1>
                         <h2 className="mb-6 text-xl text-gray-700 dark:text-gray-300">{abouts.data?.[0]?.work}</h2>
                         <p className="mb-8 text-lg leading-relaxed dark:text-[#EDEDEC]">{abouts.data?.[0]?.description}</p>
@@ -28,7 +26,7 @@ export default function Home() {
                                 href={`https://wa.me/${abouts.data?.[0]?.phone}?text=${encodeURIComponent('Halo, saya ingin bertanya...')}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                className="animate__animated animate__fadeIn animate__delay-400ms animate__duration-1500ms rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
                             >
                                 <MessageSquareDashed size={20} />
                             </a>
@@ -36,20 +34,19 @@ export default function Home() {
                                 href={abouts.data?.[0]?.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                className="animate__animated animate__fadeIn animate__delay-600ms animate__duration-1500ms rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
                             >
                                 <Linkedin size={20} />
                             </a>
-
                             <a
                                 href={`mailto:${abouts.data?.[0]?.email}?subject=Halo&body=Halo,%20saya%20ingin%20menghubungi%20Anda.`}
-                                className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                className="animate__animated animate__fadeIn animate__delay-800ms animate__duration-1500ms rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
                             >
                                 <Mail size={20} />
                             </a>
                         </div>
                     </div>
-                    <div className="flex justify-center md:justify-end">
+                    <div className="animate__animated animate__fadeIn animate__delay-100ms animate__duration-1500ms flex justify-center md:justify-end">
                         <div className="h-64 w-64 overflow-hidden rounded-full border-4 border-[#19140035] md:h-80 md:w-80 dark:border-[#3E3E3A]">
                             {/* Replace with your image */}
                             <div className="h-full w-full bg-gray-200 dark:bg-gray-700">
@@ -57,7 +54,7 @@ export default function Home() {
                                 <img
                                     src={`/storage/${abouts.data?.[0]?.photo}`}
                                     alt={abouts.data?.[0]?.fullname}
-                                    className="h-full w-full object-cover"
+                                    className="animate__animated animate__zoomIn animate__delay-1200ms animate__duration-1500ms h-full w-full object-cover"
                                 />
                             </div>
                         </div>
@@ -66,7 +63,7 @@ export default function Home() {
             </section>
 
             {/* Skills Section */}
-            <section className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
+            <section data-aos="fade-up" className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold">Skills & Expertise</h2>
                     <div className="grid gap-6 md:grid-cols-3">
@@ -81,7 +78,7 @@ export default function Home() {
             </section>
 
             {/* Experience Section */}
-            <section className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
+            <section data-aos="fade-down" className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6 py-16">
                     <h2 className="mb-12 text-center text-3xl font-bold">Experience & Education</h2>
                     <div className="space-y-8">
@@ -104,7 +101,7 @@ export default function Home() {
             </section>
 
             {/* Teaching Gallery Section */}
-            <section className="py-16 dark:text-gray-300">
+            <section data-aos="zoom-in" className="py-16 dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold">Teaching Gallery</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -123,7 +120,7 @@ export default function Home() {
             </section>
 
             {/* Writings Section */}
-            <section className="container mx-auto max-w-7xl px-6 py-16 dark:text-gray-300">
+            <section data-aos="zoom-in" className="container mx-auto max-w-7xl px-6 py-16 dark:text-gray-300">
                 <h2 className="mb-12 text-center text-3xl font-bold">My Writings</h2>
                 <div className="space-y-6">
                     {writings?.data?.map((item, index) => (
@@ -141,7 +138,7 @@ export default function Home() {
             </section>
 
             {/* Quotes Section */}
-            <section className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
+            <section data-aos="slide-right" className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold">Inspiring Quotes</h2>
                     <div className="grid gap-6 md:grid-cols-3">

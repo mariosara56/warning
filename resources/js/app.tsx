@@ -1,3 +1,5 @@
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // ← Import CSS AOS
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/react';
@@ -12,6 +14,12 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);
+
+        // Inisialisasi AOS ketika app pertama kali load
+        AOS.init({
+            duration: 1000, // durasi animasi (ms)
+            // once: true, // animasi hanya muncul sekali
+        });
 
         root.render(<App {...props} />);
     },
