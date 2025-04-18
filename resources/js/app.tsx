@@ -18,7 +18,7 @@ createInertiaApp({
         // Inisialisasi AOS ketika app pertama kali load
         AOS.init({
             duration: 1000, // durasi animasi (ms)
-            // once: true, // animasi hanya muncul sekali
+            once: true, // animasi hanya muncul sekali
         });
 
         root.render(<App {...props} />);
