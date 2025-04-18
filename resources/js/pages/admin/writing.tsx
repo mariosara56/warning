@@ -39,7 +39,7 @@ export default function WritingAdmin() {
             <Head title="Writing" />
             <div>
                 <div className="flex w-full justify-end px-2 py-2">
-                    <Link href={'/admin-writing/create'} prefetch>
+                    <Link href={'/admin-writing/create'}>
                         <Button>Add Writing</Button>
                     </Link>
                 </div>
@@ -48,7 +48,7 @@ export default function WritingAdmin() {
                     columns={columns}
                     renderActions={(writing) => (
                         <div className="flex items-center justify-center gap-2">
-                            <Link href={`/admin-writing/edit/${writing.id}`} prefetch>
+                            <Link href={`/admin-writing/edit/${writing.id}`}>
                                 <Button>
                                     <PenLine size={20} />
                                 </Button>
@@ -66,14 +66,16 @@ export default function WritingAdmin() {
                                     </DialogDescription>
 
                                     <div className="flex justify-end gap-2">
-                                        <Button
-                                            onClick={() => {
-                                                router.delete(route('admin.writing.delete', writing.id));
-                                            }}
-                                            variant="destructive"
-                                        >
-                                            Delete
-                                        </Button>
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                onClick={() => {
+                                                    router.delete(route('admin.writing.delete', writing.id));
+                                                }}
+                                                variant="destructive"
+                                            >
+                                                Delete
+                                            </Button>
+                                        </DialogTrigger>
                                         <DialogTrigger asChild>
                                             <Button variant="secondary">Cancel</Button>
                                         </DialogTrigger>

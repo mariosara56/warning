@@ -78,3 +78,11 @@ export interface Writing {
     updated_at: string;
     [key: string]: unknown;
 }
+
+export interface Quote {
+    id: number;
+    author: string;
+    quote: string;
+    is_active: boolean;
+    [key: string]: unknown;
+}

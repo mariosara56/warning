@@ -98,6 +98,13 @@ class GalleryController extends Controller
     public function destroy($id)
     {
         $gallery = Gallery::findOrFail($id);
+
+        // Hapus thumbnail dari storage jika ada
+        if ($gallery->thumbnail && Storage::disk('public')->exists($gallery->thumbnail)) {
+            Storage::disk('public')->delete($gallery->thumbnail);
+        }
+
+        // Hapus data dari database
         $gallery->delete();
 
         return redirect()->route('admin.gallery')->with('success', 'Gallery deleted successfully.');

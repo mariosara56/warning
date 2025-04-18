@@ -206,7 +206,7 @@ export default function AboutForm() {
                     </div>
 
                     <div className="flex items-center justify-end gap-4">
-                        <Link disabled={processing} href={'/admin-about'} prefetch>
+                        <Link disabled={processing} href={'/admin-about'}>
                             <Button variant="secondary">Back</Button>
                         </Link>
 

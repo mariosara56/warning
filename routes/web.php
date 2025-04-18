@@ -6,6 +6,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\WritingController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\QuoteController;
 
 Route::get('/', [HomeController::class, '__invoke'])->name('home');
 
@@ -51,6 +52,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin-writing/update/{id}', [WritingController::class, 'update'])->name('admin.writing.update');
 
     Route::delete('admin-writing/delete/{id}', [WritingController::class, 'destroy'])->name('admin.writing.delete');
+
+    // Quote
+    Route::get('admin-quote', [QuoteController::class, 'index'])->name('admin.quote');
+    Route::get('admin-quote/create', [QuoteController::class, 'create'])->name('admin.quote.create');
+    Route::post('admin-quote/store', [QuoteController::class, 'store'])->name('admin.quote.store');
+
+    Route::get('admin-quote/edit/{id}', [QuoteController::class, 'edit'])->name('admin.quote.edit');
+    Route::post('admin-quote/update/{id}', [QuoteController::class, 'update'])->name('admin.quote.update');
+
+    Route::delete('admin-quote/delete/{id}', [QuoteController::class, 'destroy'])->name('admin.quote.delete');
 });
 
 require __DIR__.'/settings.php';

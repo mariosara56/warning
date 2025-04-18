@@ -41,7 +41,7 @@ export default function AboutAdmin() {
             <Head title="About" />
             <div>
                 <div className="flex w-full justify-end px-2 py-2">
-                    <Link href={'/admin-about/create'} prefetch>
+                    <Link href={'/admin-about/create'}>
                         <Button>Add About</Button>
                     </Link>
                 </div>
@@ -50,7 +50,7 @@ export default function AboutAdmin() {
                     columns={columns}
                     renderActions={(about) => (
                         <div className="flex gap-2">
-                            <Link href={`/admin-about/edit/${about.id}`} prefetch>
+                            <Link href={`/admin-about/edit/${about.id}`}>
                                 <Button>
                                     <PenLine size={20} />
                                 </Button>
@@ -62,20 +62,22 @@ export default function AboutAdmin() {
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent>
-                                    <DialogTitle>Are you sure you want to delete this gallery?</DialogTitle>
+                                    <DialogTitle>Are you sure you want to delete this about?</DialogTitle>
                                     <DialogDescription>
-                                        This action cannot be undone. This will permanently delete the gallery and remove it from the list.
+                                        This action cannot be undone. This will permanently delete the about and remove it from the list.
                                     </DialogDescription>
 
                                     <div className="flex justify-end gap-2">
-                                        <Button
-                                            onClick={() => {
-                                                router.delete(route('admin.gallery.delete', about.id));
-                                            }}
-                                            variant="destructive"
-                                        >
-                                            Delete
-                                        </Button>
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                onClick={() => {
+                                                    router.delete(route('admin.about.delete', about.id));
+                                                }}
+                                                variant="destructive"
+                                            >
+                                                Delete
+                                            </Button>
+                                        </DialogTrigger>
                                         <DialogTrigger asChild>
                                             <Button variant="secondary">Cancel</Button>
                                         </DialogTrigger>

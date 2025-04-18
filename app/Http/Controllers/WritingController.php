@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quote;
 use App\Models\Writing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,9 +14,11 @@ class WritingController extends Controller
     public function __invoke()
     {
         $writings = Writing::orderBy('created_at', 'desc')->paginate(3);
+        $quotes = Quote::where('is_active', true)->orderBy('created_at', 'desc')->paginate(3);
 
         return Inertia::render('writing', [
-            'writings' => $writings
+            'writings' => $writings,
+            'quotes' => $quotes,
         ]);
     }
 
@@ -144,12 +147,21 @@ class WritingController extends Controller
 
     public function destroy(int $id)
     {
-        Writing::findOrFail($id)->delete();
+        $writing = Writing::findOrFail($id);
+
+        // Hapus thumbnail dari storage jika ada
+        if ($writing->thumbnail && Storage::disk('public')->exists($writing->thumbnail)) {
+            Storage::disk('public')->delete($writing->thumbnail);
+        }
+
+        // Hapus record dari database
+        $writing->delete();
 
         return redirect()
             ->route('admin.writing')
             ->with('success', 'Writing deleted successfully.');
     }
+
 
     public function show($slug)
     {

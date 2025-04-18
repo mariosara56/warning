@@ -94,7 +94,7 @@ export default function GalleryForm() {
                     </div>
 
                     <div className="flex items-center justify-end gap-4">
-                        <Link disabled={processing} href={'/admin-gallery'} prefetch>
+                        <Link disabled={processing} href={'/admin-gallery'}>
                             <Button variant="secondary">Back</Button>
                         </Link>
 

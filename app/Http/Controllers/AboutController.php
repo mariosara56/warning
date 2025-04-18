@@ -125,7 +125,23 @@ class AboutController extends Controller
     public function destroy($id)
     {
         $about = About::findOrFail($id);
+
+        // Hapus foto dari storage jika ada
+        if ($about->photo && Storage::disk('public')->exists($about->photo)) {
+            Storage::disk('public')->delete($about->photo);
+        }
+
+        // Hapus data dari database
         $about->delete();
+
+        // Setelah hapus, cek apakah masih ada yang aktif
+        if (!About::where('is_active', 1)->exists()) {
+            $first = About::orderBy('id')->first();
+            if ($first) {
+                $first->is_active = 1;
+                $first->save();
+            }
+        }
 
         return redirect()->route('admin.about')->with('success', 'About deleted successfully.');
     }

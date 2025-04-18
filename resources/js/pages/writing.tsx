@@ -1,12 +1,13 @@
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import MainLayout from '@/layouts/main-layout';
-import { type Writing } from '@/types';
+import { Quote, type Writing } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Link, usePage } from '@inertiajs/react';
 
 export default function Writing() {
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
+    const { quotes } = usePage<{ quotes: PaginatedResponse<Quote> }>().props;
 
     return (
         <MainLayout>
@@ -14,7 +15,7 @@ export default function Writing() {
                 <h2 className="mb-12 text-center text-3xl font-bold">My Writings</h2>
                 <div className="mb-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {writings?.data?.map((item, index) => (
-                        <Link href={`/writings/${item.slug}`} prefetch>
+                        <Link href={`/writings/${item.slug}`}>
                             <Card className="flex h-full flex-col p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900">
                                 <CardTitle className="line-clamp-2 min-h-8 overflow-hidden text-ellipsis">{item.title}</CardTitle>
                                 <CardContent className="flex flex-col gap-4">
@@ -44,25 +45,10 @@ export default function Writing() {
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold">Inspiring Quotes</h2>
                     <div className="grid gap-6 md:grid-cols-3">
-                        {[
-                            {
-                                text: 'Language is the road map of a culture. It tells you where its people come from and where they are going.',
-                                author: 'Rita Mae Brown',
-                            },
-                            {
-                                text: 'One language sets you in a corridor for life. Two languages open every door along the way.',
-                                author: 'Frank Smith',
-                            },
-                            {
-                                text: 'To have another language is to possess a second soul.',
-                                author: 'Charlemagne',
-                            },
-                        ].map((quote, index) => (
-                            <Card className="p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900" key={index}>
-                                <CardContent className="italic">
-                                    <p>"{quote.text}"</p>
-                                </CardContent>
-                                <CardDescription className="text-right">— {quote.author}</CardDescription>
+                        {quotes.data?.map((item, index) => (
+                            <Card className="flex flex-col justify-between p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900" key={index}>
+                                <CardContent dangerouslySetInnerHTML={{ __html: item.quote }}></CardContent>
+                                <CardDescription className="text-right">— {item.author}</CardDescription>
                             </Card>
                         ))}
                     </div>

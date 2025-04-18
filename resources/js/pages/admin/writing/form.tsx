@@ -127,7 +127,7 @@ export default function WritingForm() {
                     </div>
 
                     <div className="flex items-center justify-end gap-4">
-                        <Link disabled={processing} href={'/admin-writing'} prefetch>
+                        <Link disabled={processing} href={'/admin-writing'}>
                             <Button variant="secondary">Back</Button>
                         </Link>
 
