@@ -16,7 +16,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
             </Head>
 
             <div className="flex flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <header className="mb-6 w-full px-6 text-sm not-has-[nav]:hidden lg:px-8">
+                <header className="w-full px-6 text-sm not-has-[nav]:hidden lg:px-8">
                     {/* Mobile menu button */}
                     <div className="flex justify-end md:hidden">
                         <button
@@ -36,35 +36,52 @@ export default function MainLayout({ children }: PropsWithChildren) {
                             <Link
                                 key={path}
                                 href={path}
-                                className={`inline-block rounded-sm border px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] ${
-                                    currentPath === path
-                                        ? 'border-[#19140035] dark:border-[#3E3E3A] dark:hover:border-[#62605b]'
-                                        : 'border-transparent dark:hover:border-[#3E3E3A]'
-                                }`}
+                                className="group relative inline-block px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:text-[#191400] dark:text-[#EDEDEC] dark:hover:text-white"
                             >
                                 {path === '/' ? 'Home' : path.replace('/', '').charAt(0).toUpperCase() + path.slice(2)}
+
+                                {/* Aktif indicator */}
+                                {currentPath === path && <div className="absolute bottom-0 left-0 h-0.5 w-full bg-[#19140035] dark:bg-white" />}
+
+                                {/* Hover indicator */}
+                                <div className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 bg-[#19140035] transition-transform duration-500 group-hover:scale-x-100 dark:bg-white" />
                             </Link>
                         ))}
                         {auth.user ? (
                             <Link
                                 href={route('dashboard')}
-                                className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                                className="group relative inline-block px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:text-[#191400] dark:text-[#EDEDEC] dark:hover:text-white"
                             >
                                 Dashboard
+                                {/* Aktif indicator */}
+                                {currentPath === route('dashboard') && (
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-full bg-[#19140035] dark:bg-white" />
+                                )}
+                                {/* Hover indicator */}
+                                <div className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 bg-[#19140035] transition-transform duration-500 group-hover:scale-x-100 dark:bg-white" />
                             </Link>
                         ) : (
                             <>
                                 <Link
                                     href={route('login')}
-                                    className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                                    className="group relative inline-block px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:text-[#191400] dark:text-[#EDEDEC] dark:hover:text-white"
                                 >
                                     Log in
+                                    {currentPath === route('login') && (
+                                        <div className="absolute bottom-0 left-0 h-0.5 w-full bg-[#19140035] dark:bg-white" />
+                                    )}
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 bg-[#19140035] transition-transform duration-500 group-hover:scale-x-100 dark:bg-white" />
                                 </Link>
+
                                 <Link
                                     href={route('register')}
-                                    className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                                    className="group relative inline-block px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:text-[#191400] dark:text-[#EDEDEC] dark:hover:text-white"
                                 >
                                     Register
+                                    {currentPath === route('register') && (
+                                        <div className="absolute bottom-0 left-0 h-0.5 w-full bg-[#19140035] dark:bg-white" />
+                                    )}
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 bg-[#19140035] transition-transform duration-500 group-hover:scale-x-100 dark:bg-white" />
                                 </Link>
                             </>
                         )}
