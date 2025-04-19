@@ -23,11 +23,11 @@ class QuoteController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'author' => 'required|string|max:255',
-        //     'quote' => 'required|string|max:255',
-        //     'is_active' => 'boolean',
-        // ]);
+        $request->validate([
+            'author' => 'required|string|max:255',
+            'quote' => 'required|string',
+            'is_active' => 'boolean',
+        ]);
 
         Quote::create($request->all());
 
@@ -45,11 +45,11 @@ class QuoteController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'author' => 'required|string|max:255',
-        //     'quote' => 'required|string|max:255',
-        //     'is_active' => 'boolean',
-        // ]);
+        $request->validate([
+            'author' => 'required|string|max:255',
+            'quote' => 'required|string',
+            'is_active' => 'boolean',
+        ]);
 
         $quote = Quote::findOrFail($id);
         $quote->author = $request->input('author');

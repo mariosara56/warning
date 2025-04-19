@@ -60,7 +60,6 @@ export default function WritingForm() {
                             <Input
                                 id="thumbnail"
                                 className="mt-1 block w-full"
-                                required
                                 autoComplete="thumbnail"
                                 placeholder="Thumbnail"
                                 onChange={(e) => setData('thumbnail', e?.target?.files?.[0] || '')}
@@ -76,7 +75,6 @@ export default function WritingForm() {
                             <Input
                                 id="author"
                                 className="mt-1 block w-full"
-                                required
                                 autoComplete="author"
                                 placeholder="Author"
                                 value={data.author}
@@ -94,7 +92,6 @@ export default function WritingForm() {
                                 className="mt-1 block w-full"
                                 value={data.title}
                                 onChange={(e) => setData('title', e.target.value)}
-                                required
                                 autoComplete="title"
                                 placeholder="Title"
                             />
@@ -108,7 +105,6 @@ export default function WritingForm() {
                             <Input
                                 id="teaser"
                                 className="mt-1 block w-full"
-                                required
                                 autoComplete="teaser"
                                 placeholder="Teaser"
                                 value={data.teaser}

@@ -60,7 +60,6 @@ export default function QuoteForm() {
                                 className="mt-1 block w-full"
                                 value={data.author}
                                 onChange={(e) => setData('author', e.target.value)}
-                                required
                                 autoComplete="author"
                                 placeholder="Author"
                             />

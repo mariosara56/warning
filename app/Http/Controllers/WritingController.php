@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quote;
 use App\Models\Writing;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -38,16 +39,19 @@ class WritingController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi jika dibutuhkan
-        /*
+        $thumbnailRule = function($attribute, $value, $fail) {
+            if (!is_string($value) && !is_null($value) && !$value instanceof UploadedFile) {
+                $fail('The '.$attribute.' must be a file or a string path.');
+            }
+        };
+
         $request->validate([
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'thumbnail' => ['nullable', $thumbnailRule],
             'title' => 'required|string|max:255',
-            'teaser' => 'required|string|max:255',
+            'teaser' => 'required|string',
             'body' => 'required|string',
             'author' => 'nullable|string|max:255',
         ]);
-        */
 
         $title = $request->input('title');
         $author = $request->input('author');
@@ -68,7 +72,12 @@ class WritingController extends Controller
         $metaDescription = $teaser . ($author ? " - ditulis oleh $author" : '');
 
         // Upload thumbnail
-        $path = $request->file('thumbnail')->store('writing', 'public');
+        if ($request->hasFile('thumbnail')) {
+            // Simpan file thumbnail
+            $path = $request->file('thumbnail')->store('writing', 'public');
+        } else {
+            $path = null; // Atau bisa diisi dengan default thumbnail
+        }
 
         // Simpan ke database
         Writing::create([
@@ -98,6 +107,20 @@ class WritingController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $thumbnailRule = function($attribute, $value, $fail) {
+            if (!is_string($value) && !is_null($value) && !$value instanceof UploadedFile) {
+                $fail('The '.$attribute.' must be a file or a string path.');
+            }
+        };
+
+        $request->validate([
+            'thumbnail' => ['nullable', $thumbnailRule],
+            'title' => 'required|string|max:255',
+            'teaser' => 'required|string',
+            'body' => 'required|string',
+            'author' => 'nullable|string|max:255',
+        ]);
+
         $writing = Writing::findOrFail($id);
 
         if ($request->hasFile('thumbnail')) {
