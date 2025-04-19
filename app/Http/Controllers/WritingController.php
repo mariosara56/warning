@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quote;
 use App\Models\Writing;
+use App\Rules\ValidThumbnail;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -39,14 +40,8 @@ class WritingController extends Controller
 
     public function store(Request $request)
     {
-        $thumbnailRule = function($attribute, $value, $fail) {
-            if (!is_string($value) && !is_null($value) && !$value instanceof UploadedFile) {
-                $fail('The '.$attribute.' must be a file or a string path.');
-            }
-        };
-
         $request->validate([
-            'thumbnail' => ['nullable', $thumbnailRule],
+            'thumbnail' => ['nullable', new ValidThumbnail],
             'title' => 'required|string|max:255',
             'teaser' => 'required|string',
             'body' => 'required|string',
@@ -107,14 +102,8 @@ class WritingController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $thumbnailRule = function($attribute, $value, $fail) {
-            if (!is_string($value) && !is_null($value) && !$value instanceof UploadedFile) {
-                $fail('The '.$attribute.' must be a file or a string path.');
-            }
-        };
-
         $request->validate([
-            'thumbnail' => ['nullable', $thumbnailRule],
+            'thumbnail' => ['nullable', new ValidThumbnail],
             'title' => 'required|string|max:255',
             'teaser' => 'required|string',
             'body' => 'required|string',

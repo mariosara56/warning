@@ -57,7 +57,6 @@ export default function GalleryForm() {
                             <Input
                                 id="thumbnail"
                                 className="mt-1 block w-full"
-                                required
                                 autoComplete="thumbnail"
                                 placeholder="Thumbnail"
                                 // value={data?.thumbnail}
@@ -76,7 +75,6 @@ export default function GalleryForm() {
                                 className="mt-1 block w-full"
                                 value={data.title}
                                 onChange={(e) => setData('title', e.target.value)}
-                                required
                                 autoComplete="title"
                                 placeholder="Title"
                             />

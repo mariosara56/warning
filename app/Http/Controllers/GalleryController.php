@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
+use App\Rules\ValidThumbnail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -35,15 +36,19 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         // Validasi dapat diaktifkan jika dibutuhkan
-        /*
         $request->validate([
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'thumbnail' => ['required', new ValidThumbnail],
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
-        */
 
-        $path = $request->file('thumbnail')->store('gallery', 'public');
+        if ($request->hasFile('thumbnail')) {
+            // Simpan file thumbnail
+            $path = $request->file('thumbnail')->store('gallery', 'public');
+        } else {
+            // Jika tidak ada file, set path ke null atau default
+            $path = null;
+        }
 
         Gallery::create([
             'thumbnail' => $path,
