@@ -17,4 +17,9 @@ class About extends Model
         'work',
         'is_active',
     ];
+
+    public function expertise()
+    {
+        return $this->hasMany(Expertise::class, 'user_id');
+    }
 }

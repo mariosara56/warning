@@ -106,7 +106,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
                 </header>
             </div>
 
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 py-2">{children}</main>
 
             <footer className="bg-[#121212] py-4 text-center dark:bg-gray-50">
                 <div className="container mx-auto max-w-7xl px-6">

@@ -13,7 +13,7 @@ export default function Gallery() {
             <section className="pb-16 dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-up" data-aos-duration="1000">
-                        Teaching Gallery
+                        Gallery
                     </h2>
                     <div className="mb-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {galleries?.data?.map((item, index) => (

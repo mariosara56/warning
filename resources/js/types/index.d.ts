@@ -86,3 +86,11 @@ export interface Quote {
     is_active: boolean;
     [key: string]: unknown;
 }
+
+export interface Skill {
+    id: number;
+    name: string;
+    category: string;
+    type: string;
+    [key: string]: unknown;
+}

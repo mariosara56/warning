@@ -13,7 +13,7 @@ export default function Writing() {
         <MainLayout>
             <section className="container mx-auto max-w-7xl px-6 pb-16 dark:text-gray-300">
                 <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
-                    My Writings
+                    Writings
                 </h2>
 
                 <div className="mb-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

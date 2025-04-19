@@ -5,8 +5,10 @@ use Inertia\Inertia;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\WritingController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ExpertiseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\SkillController;
 
 Route::get('/', [HomeController::class, '__invoke'])->name('home');
 
@@ -62,6 +64,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin-quote/update/{id}', [QuoteController::class, 'update'])->name('admin.quote.update');
 
     Route::delete('admin-quote/delete/{id}', [QuoteController::class, 'destroy'])->name('admin.quote.delete');
+
+    // Expertise
+    Route::prefix('admin-about/{id}')->group(function () {
+        Route::get('/expertise', [ExpertiseController::class, 'index'])->name('admin.expertise');
+        Route::post('/expertise', [ExpertiseController::class, 'store'])->name('admin.expertise.store');
+    });
+
+    Route::post('/expertise/{id}', [ExpertiseController::class, 'update'])->name('admin.expertise.update');
+
+    Route::delete('/expertise/{id}', [ExpertiseController::class, 'destroy'])->name('admin.expertise.delete');
+
+    // Skill
+    Route::get('admin-skill', [SkillController::class, 'index'])->name('admin.skill');
+
+    Route::get('admin-skill/create', [SkillController::class, 'create'])->name('admin.skill.create');
+    Route::post('admin-skill/store', [SkillController::class, 'store'])->name('admin.skill.store');
+
+    Route::get('admin-skill/edit/{id}', [SkillController::class, 'edit'])->name('admin.skill.edit');
+    Route::post('admin-skill/update/{id}', [SkillController::class, 'update'])->name('admin.skill.update');
+
+    Route::delete('admin-skill/delete/{id}', [SkillController::class, 'destroy'])->name('admin.skill.delete');
 });
 
 require __DIR__.'/settings.php';
