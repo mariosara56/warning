@@ -25,7 +25,16 @@ export default function Gallery() {
                                 data-aos-duration="1000"
                             >
                                 <CardTitle className="h-64">
-                                    <img src={`/storage/${item?.thumbnail}`} alt={item?.title} className="h-full w-full object-cover" />
+                                    <img
+                                        src={`/storage/${item?.thumbnail}`}
+                                        alt={item?.title}
+                                        className="h-full w-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.onerror = null;
+                                            target.src = '/photo-ekklesia.png';
+                                        }}
+                                    />
                                 </CardTitle>
                                 <CardContent>
                                     <CardDescription dangerouslySetInnerHTML={{ __html: item.description ?? '' }} />

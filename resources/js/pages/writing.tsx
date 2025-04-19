@@ -25,7 +25,16 @@ export default function Writing() {
                                     <div className="flex items-center justify-center">
                                         <div className="h-64 w-64 overflow-hidden rounded-2xl border-4 border-[#19140035] md:h-80 md:w-80 dark:border-[#3E3E3A]">
                                             <div className="h-full w-full bg-gray-200 dark:bg-gray-700">
-                                                <img src={`/storage/${item.thumbnail}`} alt={item.title} className="h-full w-full object-cover" />
+                                                <img
+                                                    src={`/storage/${item.thumbnail}`}
+                                                    alt={item.title}
+                                                    className="h-full w-full object-cover"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.onerror = null;
+                                                        target.src = '/photo-ekklesia.png';
+                                                    }}
+                                                />
                                             </div>
                                         </div>
                                     </div>

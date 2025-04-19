@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Rules\ValidThumbnail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -37,17 +38,17 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         // Validasi dapat diaktifkan jika dibutuhkan
-        /*
         $request->validate([
             'fullname' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:255',
-            'instagram' => 'required|string|max:255',
-            'linkedin' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:255|regex:/^62[0-9]{8,13}$/',
+            'instagram' => 'nullable|string|max:255',
+            'linkedin' => 'nullable|string|max:255|regex:/^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+$/',
+            'description' => 'required|string',
+            'photo' => ['required', new ValidThumbnail],
+            'work' => 'required|string|max:255',
+            'is_active' => 'nullable|boolean',
         ]);
-        */
 
         $path = $request->file('photo')->store('about', 'public');
 
@@ -77,6 +78,18 @@ class AboutController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:255|regex:/^62[0-9]{8,13}$/',
+            'instagram' => 'nullable|string|max:255|regex:/^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._%+-]+\/?$/',
+            'linkedin' => 'nullable|string|max:255|regex:/^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?$/',
+            'description' => 'required|string',
+            'photo' => ['required', new ValidThumbnail],
+            'work' => 'required|string|max:255',
+            'is_active' => 'nullable|boolean',
+        ]);
+
         $about = About::findOrFail($id);
 
         if ($request->hasFile('photo')) {

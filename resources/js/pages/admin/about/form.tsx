@@ -71,7 +71,6 @@ export default function AboutForm() {
                                 className="mt-1 block w-full"
                                 value={data.fullname}
                                 onChange={(e) => setData('fullname', e.target.value)}
-                                required
                                 autoComplete="fullname"
                                 placeholder="Full Name"
                             />
@@ -80,14 +79,13 @@ export default function AboutForm() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">Email (Ex: username@example.com)</Label>
 
                             <Input
                                 id="email"
                                 className="mt-1 block w-full"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
-                                required
                                 autoComplete="email"
                                 placeholder="Email"
                             />
@@ -96,14 +94,13 @@ export default function AboutForm() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="phone">Phone</Label>
+                            <Label htmlFor="phone">Phone (Ex: 6283456789011)</Label>
 
                             <Input
                                 id="phone"
                                 className="mt-1 block w-full"
                                 value={data.phone}
                                 onChange={(e) => setData('phone', e.target.value)}
-                                required
                                 autoComplete="phone"
                                 placeholder="Phone"
                             />
@@ -112,14 +109,13 @@ export default function AboutForm() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="instagram">Instagram</Label>
+                            <Label htmlFor="instagram">Instagram (Ex: https://www.instagram.com/username)</Label>
 
                             <Input
                                 id="instagram"
                                 className="mt-1 block w-full"
                                 value={data.instagram}
                                 onChange={(e) => setData('instagram', e.target.value)}
-                                required
                                 autoComplete="instagram"
                                 placeholder="Instagram"
                             />
@@ -128,14 +124,13 @@ export default function AboutForm() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="linkedin">LinkedIn</Label>
+                            <Label htmlFor="linkedin">LinkedIn (Ex: https://www.linkedin.com/in/username)</Label>
 
                             <Input
                                 id="linkedin"
                                 className="mt-1 block w-full"
                                 value={data.linkedin}
                                 onChange={(e) => setData('linkedin', e.target.value)}
-                                required
                                 autoComplete="linkedin"
                                 placeholder="LinkedIn"
                             />
@@ -149,7 +144,6 @@ export default function AboutForm() {
                             <Textarea
                                 id="description"
                                 className="mt-1 block w-full"
-                                required
                                 autoComplete="description"
                                 placeholder="Description"
                                 value={data.description}
@@ -165,7 +159,6 @@ export default function AboutForm() {
                             <Input
                                 id="photo"
                                 className="mt-1 block w-full"
-                                required
                                 autoComplete="photo"
                                 placeholder="Photo"
                                 // value={data?.thumbnail}
@@ -184,7 +177,6 @@ export default function AboutForm() {
                                 className="mt-1 block w-full"
                                 value={data.work}
                                 onChange={(e) => setData('work', e.target.value)}
-                                required
                                 autoComplete="work"
                                 placeholder="Work"
                             />

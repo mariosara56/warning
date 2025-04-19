@@ -4,7 +4,7 @@ import MainLayout from '@/layouts/main-layout';
 import { About, Gallery, Quote, Writing } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Link, usePage } from '@inertiajs/react';
-import { Linkedin, Mail, MessageSquareDashed } from 'lucide-react';
+import { Instagram, Linkedin, Mail, MessageSquareDashed } from 'lucide-react';
 
 export default function Home() {
     const { abouts } = usePage<{ abouts: PaginatedResponse<About> }>().props;
@@ -22,37 +22,56 @@ export default function Home() {
                         <h2 className="mb-6 text-xl text-gray-700 dark:text-gray-300">{abouts.data?.[0]?.work}</h2>
                         <p className="mb-8 text-lg leading-relaxed dark:text-[#EDEDEC]">{abouts.data?.[0]?.description}</p>
                         <div className="flex items-center gap-4">
-                            <a
-                                href={`https://wa.me/${abouts.data?.[0]?.phone}?text=${encodeURIComponent('Halo, saya ingin bertanya...')}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
-                                data-aos="fade-in"
-                                data-aos-delay="400"
-                                data-aos-duration="1500"
-                            >
-                                <MessageSquareDashed size={20} />
-                            </a>
-                            <a
-                                href={abouts.data?.[0]?.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
-                                data-aos="fade-in"
-                                data-aos-delay="600"
-                                data-aos-duration="1500"
-                            >
-                                <Linkedin size={20} />
-                            </a>
-                            <a
-                                href={`mailto:${abouts.data?.[0]?.email}?subject=Halo&body=Halo,%20saya%20ingin%20menghubungi%20Anda.`}
-                                className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
-                                data-aos="fade-in"
-                                data-aos-delay="800"
-                                data-aos-duration="1500"
-                            >
-                                <Mail size={20} />
-                            </a>
+                            {abouts.data?.[0]?.phone && (
+                                <a
+                                    href={`https://wa.me/${abouts.data?.[0]?.phone}?text=${encodeURIComponent('Halo, saya ingin bertanya...')}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                    data-aos="fade-in"
+                                    data-aos-delay="400"
+                                    data-aos-duration="1500"
+                                >
+                                    <MessageSquareDashed size={20} />
+                                </a>
+                            )}
+                            {abouts.data?.[0]?.email && (
+                                <a
+                                    href={`mailto:${abouts.data?.[0]?.email}?subject=Halo&body=Halo,%20saya%20ingin%20menghubungi%20Anda.`}
+                                    className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                    data-aos="fade-in"
+                                    data-aos-delay="800"
+                                    data-aos-duration="1500"
+                                >
+                                    <Mail size={20} />
+                                </a>
+                            )}
+                            {abouts.data?.[0]?.linkedin && (
+                                <a
+                                    href={abouts.data?.[0]?.linkedin}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                    data-aos="fade-in"
+                                    data-aos-delay="600"
+                                    data-aos-duration="1500"
+                                >
+                                    <Linkedin size={20} />
+                                </a>
+                            )}
+                            {abouts.data?.[0]?.instagram && (
+                                <a
+                                    href={abouts.data?.[0]?.instagram}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-full border border-[#19140035] p-3 transition hover:bg-gray-100 dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:bg-[#1a1a1a]"
+                                    data-aos="fade-in"
+                                    data-aos-delay="600"
+                                    data-aos-duration="1500"
+                                >
+                                    <Instagram size={20} />
+                                </a>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-center md:justify-end" data-aos="fade-in" data-aos-delay="100" data-aos-duration="1500">
@@ -67,6 +86,11 @@ export default function Home() {
                                     data-aos="zoom-in"
                                     data-aos-delay="1200"
                                     data-aos-duration="1500"
+                                    onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.onerror = null;
+                                        target.src = '/photo-ekklesia.png';
+                                    }}
                                 />
                             </div>
                         </div>
@@ -136,7 +160,16 @@ export default function Home() {
                                 data-aos-delay={index * 100}
                             >
                                 <CardTitle className="h-64">
-                                    <img src={`/storage/${item?.thumbnail}`} alt={item?.title} className="h-full w-full object-cover" />
+                                    <img
+                                        src={`/storage/${item?.thumbnail}`}
+                                        alt={item?.title}
+                                        className="h-full w-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.onerror = null;
+                                            target.src = '/photo-ekklesia.png';
+                                        }}
+                                    />
                                 </CardTitle>
                                 <CardContent>
                                     <CardDescription dangerouslySetInnerHTML={{ __html: item.description ?? '' }} />
