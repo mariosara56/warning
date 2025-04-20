@@ -70,31 +70,37 @@ class ExpertiseController extends Controller
     }
 
     // Update data expertise
-    public function update(Request $request, $id)
+    public function update(Request $request, $aboutId, $id)
     {
-        $expertise = Expertise::findOrFail($id);
-
         $request->validate([
-            'skill_id' => 'exists:skills,id',
-            'level' => 'in:Beginner,Intermediate,Advanced,Expert',
+            'skill_id' => 'required|exists:skills,id',
+            'level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'years_of_experience' => 'nullable|integer',
             'certified' => 'boolean',
             'notes' => 'nullable|string'
         ]);
 
-        $expertise->update($request->all());
+        $expertise = Expertise::findOrFail($id);
+        $expertise->update([
+            'user_id' => $aboutId,
+            'skill_id' => $request->skill_id,
+            'level' => $request->level,
+            'years_of_experience' => $request->years_of_experience,
+            'certified' => $request->certified ?? false,
+            'notes' => $request->notes,
+        ]);
 
-        return redirect()->route('admin.expertise', $expertise->user_id)
+        return redirect()->route('admin.expertise', $aboutId)
             ->with('success', 'Expertise updated successfully.');
     }
 
     // Hapus data expertise
-    public function destroy($id)
+    public function destroy($aboutId, $id)
     {
         $expertise = Expertise::findOrFail($id);
         $expertise->delete();
 
-        return redirect()->route('admin.expertise', $expertise->user_id)
+        return redirect()->route('admin.expertise', $aboutId)
             ->with('success', 'Expertise deleted successfully.');
     }
 }

@@ -107,7 +107,9 @@ export default function ExperienceEducationAdmin() {
                                         <DialogTrigger asChild>
                                             <Button
                                                 onClick={() => {
-                                                    router.delete(route('admin.experience-education.delete', experienceEducation.id));
+                                                    router.delete(
+                                                        route('admin.experience-education.delete', { aboutId: about.id, id: experienceEducation.id }),
+                                                    );
                                                 }}
                                                 variant="destructive"
                                             >

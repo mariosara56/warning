@@ -23,10 +23,6 @@ export default function ExpertiseForm() {
     const { about } = usePage<{ about: About }>().props;
     const isEditMode = !!expertise;
 
-    console.log('expertise', expertise);
-    console.log('skills', skills);
-    console.log('about', about);
-
     const { data, setData, post, errors, processing, reset } = useForm<Required<ExpertiseForm>>({
         skill_id: expertise?.skill_id ?? 0,
         level: expertise?.level ?? '',
@@ -45,7 +41,7 @@ export default function ExpertiseForm() {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         if (isEditMode) {
-            post(route('admin.expertise.update', expertise.id), {
+            post(route('admin.expertise.update', { aboutId: about.id, id: expertise.id }), {
                 onFinish: () => reset('skill_id', 'level', 'years_of_experience', 'certified', 'notes'),
             });
         } else {

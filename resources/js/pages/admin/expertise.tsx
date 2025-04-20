@@ -90,7 +90,7 @@ export default function ExpertiseAdmin() {
                                         <DialogTrigger asChild>
                                             <Button
                                                 onClick={() => {
-                                                    router.delete(route('admin.expertise.delete', expertise.id));
+                                                    router.delete(route('admin.expertise.delete', { aboutId: about.id, id: expertise.id }));
                                                 }}
                                                 variant="destructive"
                                             >

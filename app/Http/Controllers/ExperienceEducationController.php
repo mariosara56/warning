@@ -34,28 +34,25 @@ class ExperienceEducationController extends Controller
         ]);
     }
 
-    // public function store(Request $request, $aboutId)
-    // {
-    //     $request->validate([
-    //         'skill_id' => 'required|exists:skills,id',
-    //         'level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
-    //         'years_of_experience' => 'nullable|integer',
-    //         'certified' => 'boolean',
-    //         'notes' => 'nullable|string'
-    //     ]);
+    public function store(Request $request, $aboutId)
+    {
+        $request->validate([
+            'type' => 'required|in:Experience,Education',
+            'title' => 'required|string|max:255',
+            'company_institution' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'description' => 'nullable|string',
+            'achievements_or_grade' => 'nullable|string',
+            'skill_id' => 'exists:skills,id',
+        ]);
 
-    //     Expertise::create([
-    //         'user_id' => $aboutId,
-    //         'skill_id' => $request->skill_id,
-    //         'level' => $request->level,
-    //         'years_of_experience' => $request->years_of_experience,
-    //         'certified' => $request->certified ?? false,
-    //         'notes' => $request->notes,
-    //     ]);
+        ExperienceEducation::create(array_merge($request->all(), ['user_id' => $aboutId]));
 
-    //     return redirect()->route('admin.expertise', $aboutId)
-    //         ->with('success', 'Expertise created successfully.');
-    // }
+        return redirect()->route('admin.experience-education', $aboutId)
+            ->with('success', 'Experience Education created successfully.');
+    }
 
     public function edit($aboutId, $id)
     {
@@ -70,30 +67,33 @@ class ExperienceEducationController extends Controller
         ]);
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $expertise = Expertise::findOrFail($id);
+    public function update(Request $request, $aboutId, $id)
+    {
+        $request->validate([
+            'type' => 'required|in:Experience,Education',
+            'title' => 'required|string|max:255',
+            'company_institution' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'description' => 'nullable|string',
+            'achievements_or_grade' => 'nullable|string',
+            'skill_id' => 'exists:skills,id',
+        ]);
 
-    //     $request->validate([
-    //         'skill_id' => 'exists:skills,id',
-    //         'level' => 'in:Beginner,Intermediate,Advanced,Expert',
-    //         'years_of_experience' => 'nullable|integer',
-    //         'certified' => 'boolean',
-    //         'notes' => 'nullable|string'
-    //     ]);
+        $experienceEducation = ExperienceEducation::findOrFail($id);
+        $experienceEducation->update($request->all());
 
-    //     $expertise->update($request->all());
+        return redirect()->route('admin.experience-education', $aboutId)
+            ->with('success', 'Experience Education updated successfully.');
+    }
 
-    //     return redirect()->route('admin.expertise', $expertise->user_id)
-    //         ->with('success', 'Expertise updated successfully.');
-    // }
-
-    public function destroy($id)
+    public function destroy($aboutId, $id)
     {
         $experienceEducation = ExperienceEducation::findOrFail($id);
         $experienceEducation->delete();
 
-        return redirect()->route('admin.experience-education', $experienceEducation->user_id)
+        return redirect()->route('admin.experience-education', $aboutId)
             ->with('success', 'Experience Education deleted successfully.');
     }
 }
