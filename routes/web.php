@@ -66,9 +66,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('admin-quote/delete/{id}', [QuoteController::class, 'destroy'])->name('admin.quote.delete');
 
     // Expertise
-    Route::prefix('admin-about/{id}')->group(function () {
+    Route::prefix('admin-about/{aboutId}')->group(function () {
         Route::get('/expertise', [ExpertiseController::class, 'index'])->name('admin.expertise');
-        Route::post('/expertise', [ExpertiseController::class, 'store'])->name('admin.expertise.store');
+        Route::get('/expertise/create', [ExpertiseController::class, 'create'])->name('admin.expertise.create');
+        Route::post('/expertise/store', [ExpertiseController::class, 'store'])->name('admin.expertise.store');
+
+        Route::get('/expertise/edit/{id}', [ExpertiseController::class, 'edit'])->name('admin.expertise.edit');
+        Route::post('/expertise/update/{id}', [ExpertiseController::class, 'update'])->name('admin.expertise.update');
+
+        Route::delete('/expertise/delete/{id}', [ExpertiseController::class, 'destroy'])->name('admin.expertise.delete');
     });
 
     Route::post('/expertise/{id}', [ExpertiseController::class, 'update'])->name('admin.expertise.update');

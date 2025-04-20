@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import MainLayout from '@/layouts/main-layout';
-import { About, Gallery, Quote, Writing } from '@/types';
+import { About, Expertise, Gallery, Quote, Writing } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Link, usePage } from '@inertiajs/react';
 import { Instagram, Linkedin, Mail, MessageSquareDashed } from 'lucide-react';
 
 export default function Home() {
     const { abouts } = usePage<{ abouts: PaginatedResponse<About> }>().props;
+    const { expertises } = usePage<{ expertises: Expertise[] }>().props;
     const { galleries } = usePage<{ galleries: PaginatedResponse<Gallery> }>().props;
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
     const { quotes } = usePage<{ quotes: Quote[] }>().props;
@@ -104,16 +105,36 @@ export default function Home() {
                     <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
                         Skills & Expertise
                     </h2>
-                    <div className="grid gap-6 md:grid-cols-3">
-                        {['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6'].map((skill, index) => (
+
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {expertises.map((item, index) => (
                             <Card
-                                key={skill}
-                                className="p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900"
+                                key={index}
+                                className="flex flex-col gap-3 p-6 shadow-md transition hover:bg-neutral-200 hover:shadow-lg dark:hover:bg-neutral-900"
                                 data-aos="fade-up"
-                                data-aos-delay={index * 100} // Delay each card by 100ms increment
+                                data-aos-delay={index * 100}
                             >
-                                <CardTitle>{skill}</CardTitle>
-                                <CardDescription>This is a simple card with just content.</CardDescription>
+                                <CardTitle className="text-xl font-semibold">{item.skill?.name || 'Unnamed Skill'}</CardTitle>
+
+                                <CardDescription className="text-muted-foreground text-sm">{item.notes || 'No notes provided.'}</CardDescription>
+
+                                <div className="mt-2 flex flex-col gap-1 text-sm">
+                                    <div>
+                                        <span className="font-medium">Level:</span> {item.level}
+                                    </div>
+
+                                    {item.years_of_experience !== undefined && (
+                                        <div>
+                                            <span className="font-medium">Experience:</span> {item.years_of_experience} year
+                                            {item.years_of_experience > 1 ? 's' : ''}
+                                        </div>
+                                    )}
+
+                                    <div>
+                                        <span className="font-medium">Certified:</span>{' '}
+                                        <span className={item.certified ? 'text-green-600' : 'text-red-500'}>{item.certified ? 'Yes' : 'No'}</span>
+                                    </div>
+                                </div>
                             </Card>
                         ))}
                     </div>

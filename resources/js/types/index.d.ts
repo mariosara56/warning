@@ -87,6 +87,18 @@ export interface Quote {
     [key: string]: unknown;
 }
 
+export interface Expertise {
+    id: number;
+    skill_id: number;
+    user_id: number;
+    level: string;
+    years_of_experience?: number;
+    certified: boolean;
+    notes: string;
+    skill?: Skill;
+    [key: string]: unknown;
+}
+
 export interface Skill {
     id: number;
     name: string;

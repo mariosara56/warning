@@ -9,14 +9,30 @@ use Illuminate\Http\Request;
 
 class ExpertiseController extends Controller
 {
-    // Tampilkan daftar semua expertise milik about tertentu
     public function index($aboutId)
     {
-        $about = About::with('expertise.skill')->findOrFail($aboutId);
-        return response()->json($about->expertise);
+        $expertises = Expertise::where('user_id', $aboutId)->with(['skill'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        $about = About::findOrFail($aboutId);
+
+        return inertia('admin/expertise', [
+            'expertises' => $expertises,
+            'about' => $about,
+        ]);
     }
 
-    // Simpan data expertise baru
+    public function create($aboutId)
+    {
+        $skills = Skill::all();
+        $about = About::findOrFail($aboutId);
+
+        return inertia('admin/expertise/form', [
+            'skills' => $skills,
+            'about' => $about,
+        ]);
+    }
+
     public function store(Request $request, $aboutId)
     {
         $request->validate([
@@ -27,7 +43,7 @@ class ExpertiseController extends Controller
             'notes' => 'nullable|string'
         ]);
 
-        $expertise = Expertise::create([
+        Expertise::create([
             'user_id' => $aboutId,
             'skill_id' => $request->skill_id,
             'level' => $request->level,
@@ -36,7 +52,21 @@ class ExpertiseController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return response()->json($expertise, 201);
+        return redirect()->route('admin.expertise', $aboutId)
+            ->with('success', 'Expertise created successfully.');
+    }
+
+    public function edit($aboutId, $id)
+    {
+        $expertise = Expertise::findOrFail($id);
+        $skills = Skill::all();
+        $about = About::findOrFail($aboutId);
+
+        return inertia('admin/expertise/form', [
+            'expertise' => $expertise,
+            'skills' => $skills,
+            'about' => $about,
+        ]);
     }
 
     // Update data expertise
@@ -54,7 +84,8 @@ class ExpertiseController extends Controller
 
         $expertise->update($request->all());
 
-        return response()->json($expertise);
+        return redirect()->route('admin.expertise', $expertise->user_id)
+            ->with('success', 'Expertise updated successfully.');
     }
 
     // Hapus data expertise
@@ -63,7 +94,8 @@ class ExpertiseController extends Controller
         $expertise = Expertise::findOrFail($id);
         $expertise->delete();
 
-        return response()->json(['message' => 'Expertise deleted']);
+        return redirect()->route('admin.expertise', $expertise->user_id)
+            ->with('success', 'Expertise deleted successfully.');
     }
 }
 
