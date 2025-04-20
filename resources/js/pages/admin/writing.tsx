@@ -1,3 +1,4 @@
+import SimpleTooltip from '@/components/simple-tooltip';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Pagination from '@/components/ui/pagination';
@@ -6,7 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Writing } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { PenLine, Trash2 } from 'lucide-react';
+import { PenLine, Plus, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,26 +40,34 @@ export default function WritingAdmin() {
             <Head title="Writing" />
             <div>
                 <div className="flex w-full justify-end px-2 py-2">
-                    <Link href={'/admin-writing/create'}>
-                        <Button>Add Writing</Button>
-                    </Link>
+                    <SimpleTooltip content="Create Writing">
+                        <Link href={'/admin-writing/create'}>
+                            <Button>
+                                <Plus size={20} /> Create
+                            </Button>
+                        </Link>
+                    </SimpleTooltip>
                 </div>
                 <Table
                     data={writings.data}
                     columns={columns}
                     renderActions={(writing) => (
                         <div className="flex items-center justify-center gap-2">
-                            <Link href={`/admin-writing/edit/${writing.id}`}>
-                                <Button>
-                                    <PenLine size={20} />
-                                </Button>
-                            </Link>
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button variant="destructive">
-                                        <Trash2 size={20} />
+                            <SimpleTooltip content="Edit">
+                                <Link href={`/admin-writing/edit/${writing.id}`}>
+                                    <Button>
+                                        <PenLine size={20} />
                                     </Button>
-                                </DialogTrigger>
+                                </Link>
+                            </SimpleTooltip>
+                            <Dialog>
+                                <SimpleTooltip content="Delete">
+                                    <DialogTrigger asChild>
+                                        <Button variant="destructive">
+                                            <Trash2 size={20} />
+                                        </Button>
+                                    </DialogTrigger>
+                                </SimpleTooltip>
                                 <DialogContent>
                                     <DialogTitle>Are you sure you want to delete this writing?</DialogTitle>
                                     <DialogDescription>

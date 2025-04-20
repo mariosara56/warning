@@ -1,3 +1,4 @@
+import SimpleTooltip from '@/components/simple-tooltip';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Pagination from '@/components/ui/pagination';
@@ -6,7 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { About, type BreadcrumbItem } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { PenLine, Trash2 } from 'lucide-react';
+import { PenLine, Plus, Trash2, UserPen } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,10 +18,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const columns = [
     { header: 'Full Name', accessor: 'fullname' },
-    { header: 'Email', accessor: 'email' },
-    { header: 'Phone', accessor: 'phone' },
-    { header: 'Instagram', accessor: 'instagram' },
-    { header: 'LinkedIn', accessor: 'linkedin' },
     {
         header: 'Description',
         accessor: (item: About) => <div className="line-clamp-2 max-w-xs overflow-hidden text-ellipsis">{item.description}</div>,
@@ -41,26 +38,43 @@ export default function AboutAdmin() {
             <Head title="About" />
             <div>
                 <div className="flex w-full justify-end px-2 py-2">
-                    <Link href={'/admin-about/create'}>
-                        <Button>Add About</Button>
-                    </Link>
+                    <SimpleTooltip content="Creat About">
+                        <Link href={'/admin-about/create'}>
+                            <Button>
+                                <Plus size={20} /> Create
+                            </Button>
+                        </Link>
+                    </SimpleTooltip>
                 </div>
                 <Table
                     data={abouts.data}
                     columns={columns}
                     renderActions={(about) => (
                         <div className="flex gap-2">
-                            <Link href={`/admin-about/edit/${about.id}`}>
-                                <Button>
-                                    <PenLine size={20} />
-                                </Button>
-                            </Link>
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button variant="destructive">
-                                        <Trash2 size={20} />
+                            <SimpleTooltip content="Edit">
+                                <Link href={`/admin-about/edit/${about.id}`}>
+                                    <Button>
+                                        <PenLine size={20} />
                                     </Button>
-                                </DialogTrigger>
+                                </Link>
+                            </SimpleTooltip>
+
+                            <SimpleTooltip content="Expertise">
+                                <Link href={`/admin-about/${about.id}/expertise`}>
+                                    <Button className="bg-green-500 text-white hover:bg-green-600">
+                                        <UserPen size={20} />
+                                    </Button>
+                                </Link>
+                            </SimpleTooltip>
+
+                            <Dialog>
+                                <SimpleTooltip content="Delete">
+                                    <DialogTrigger asChild>
+                                        <Button variant="destructive">
+                                            <Trash2 size={20} />
+                                        </Button>
+                                    </DialogTrigger>
+                                </SimpleTooltip>
                                 <DialogContent>
                                     <DialogTitle>Are you sure you want to delete this about?</DialogTitle>
                                     <DialogDescription>
