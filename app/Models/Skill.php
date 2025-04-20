@@ -12,4 +12,9 @@ class Skill extends Model
     {
         return $this->hasMany(Expertise::class);
     }
+
+    public function experienceEducation()
+    {
+        return $this->hasMany(ExperienceEducation::class);
+    }
 }

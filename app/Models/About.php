@@ -22,4 +22,9 @@ class About extends Model
     {
         return $this->hasMany(Expertise::class, 'user_id');
     }
+
+    public function experienceEducation()
+    {
+        return $this->hasMany(ExperienceEducation::class, 'user_id');
+    }
 }

@@ -99,6 +99,21 @@ export interface Expertise {
     [key: string]: unknown;
 }
 
+export interface ExperienceEducation {
+    id: number;
+    type: string;
+    title: string;
+    company_institution: string;
+    location: string;
+    start_date: string;
+    end_date: string;
+    description: string;
+    achievements_or_grade: string;
+    skill_id: number;
+    skill?: Skill;
+    [key: string]: unknown;
+}
+
 export interface Skill {
     id: number;
     name: string;

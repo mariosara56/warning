@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\WritingController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ExperienceEducationController;
 use App\Http\Controllers\ExpertiseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuoteController;
@@ -77,9 +78,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/expertise/delete/{id}', [ExpertiseController::class, 'destroy'])->name('admin.expertise.delete');
     });
 
-    Route::post('/expertise/{id}', [ExpertiseController::class, 'update'])->name('admin.expertise.update');
+    // Experience Education
+    Route::prefix('admin-about/{aboutId}')->group(function () {
+        Route::get('/experience-education', [ExperienceEducationController::class, 'index'])->name('admin.experience-education');
+        Route::get('/experience-education/create', [ExperienceEducationController::class, 'create'])->name('admin.experience-education.create');
+        Route::post('/experience-education/store', [ExperienceEducationController::class, 'store'])->name('admin.experience-education.store');
 
-    Route::delete('/expertise/{id}', [ExpertiseController::class, 'destroy'])->name('admin.expertise.delete');
+        Route::get('/experience-education/edit/{id}', [ExperienceEducationController::class, 'edit'])->name('admin.experience-education.edit');
+        Route::post('/experience-education/update/{id}', [ExperienceEducationController::class, 'update'])->name('admin.experience-education.update');
+
+        Route::delete('/experience-education/delete/{id}', [ExperienceEducationController::class, 'destroy'])->name('admin.experience-education.delete');
+    });
 
     // Skill
     Route::get('admin-skill', [SkillController::class, 'index'])->name('admin.skill');

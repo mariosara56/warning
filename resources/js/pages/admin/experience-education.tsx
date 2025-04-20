@@ -4,42 +4,72 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import Pagination from '@/components/ui/pagination';
 import Table from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { About, type BreadcrumbItem } from '@/types';
+import { About, ExperienceEducation, type BreadcrumbItem } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { BookUser, PenLine, Plus, Trash2, UserPen } from 'lucide-react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'About',
-        href: '/admin-about',
-    },
-];
+import { PenLine, Plus, Trash2 } from 'lucide-react';
 
 const columns = [
-    { header: 'Full Name', accessor: 'fullname' },
+    {
+        header: 'Type',
+        accessor: 'type',
+    },
+    {
+        header: 'Title',
+        accessor: 'title',
+    },
+    {
+        header: 'Company Institution',
+        accessor: 'company_institution',
+    },
+    {
+        header: 'Location',
+        accessor: 'location',
+    },
+    {
+        header: 'Start Date',
+        accessor: 'start_date',
+    },
+    {
+        header: 'End Date',
+        accessor: 'end_date',
+    },
     {
         header: 'Description',
-        accessor: (item: About) => <div className="line-clamp-2 max-w-xs overflow-hidden text-ellipsis">{item.description}</div>,
+        accessor: 'description',
     },
     {
-        header: 'Photo',
-        accessor: (item: About) => <img src={`/storage/${item.photo}`} alt={item.fullname} className="h-12 w-12 rounded object-cover" />,
+        header: 'Achievements or Grade',
+        accessor: 'achievements_or_grade',
     },
-    { header: 'Work', accessor: 'work' },
-    { header: 'Is Active', accessor: (item: About) => (item.is_active ? 'Yes' : 'No') },
+    {
+        header: 'Skill',
+        accessor: (item: ExperienceEducation) => <>{item.skill?.name ?? '-'}</>,
+    },
 ];
 
-export default function AboutAdmin() {
-    const { abouts } = usePage<{ abouts: PaginatedResponse<About> }>().props;
+export default function ExperienceEducationAdmin() {
+    const { experienceEducations } = usePage<{ experienceEducations: PaginatedResponse<ExperienceEducation> }>().props;
+    const { about } = usePage<{ about: About }>().props;
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: `Experience Education - ${about?.fullname ?? 'Admin'}`,
+            href: `/admin-about/${about?.id}/experience-education`,
+        },
+    ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="About" />
+            <Head title="Experience Education" />
             <div>
-                <div className="flex w-full justify-end px-2 py-2">
-                    <SimpleTooltip content="Creat About">
-                        <Link href={'/admin-about/create'}>
+                <div className="flex w-full justify-between px-2 py-2">
+                    <SimpleTooltip content="Back">
+                        <Link href={'/admin-about'}>
+                            <Button variant="secondary">Back</Button>
+                        </Link>
+                    </SimpleTooltip>
+                    <SimpleTooltip content="Create Experience Education">
+                        <Link href={`/admin-about/${about?.id}/experience-education/create`}>
                             <Button>
                                 <Plus size={20} /> Create
                             </Button>
@@ -47,36 +77,19 @@ export default function AboutAdmin() {
                     </SimpleTooltip>
                 </div>
                 <Table
-                    data={abouts.data}
+                    data={experienceEducations.data}
                     columns={columns}
-                    renderActions={(about) => (
+                    renderActions={(experienceEducation) => (
                         <div className="flex gap-2">
                             <SimpleTooltip content="Edit">
-                                <Link href={`/admin-about/edit/${about.id}`}>
+                                <Link href={`/admin-about/${about?.id}/experience-education/edit/${experienceEducation.id}`}>
                                     <Button>
                                         <PenLine size={20} />
                                     </Button>
                                 </Link>
                             </SimpleTooltip>
-
-                            <SimpleTooltip content="Expertise">
-                                <Link href={`/admin-about/${about.id}/expertise`}>
-                                    <Button className="bg-green-500 text-white hover:bg-green-600">
-                                        <UserPen size={20} />
-                                    </Button>
-                                </Link>
-                            </SimpleTooltip>
-
-                            <SimpleTooltip content="Experience Education">
-                                <Link href={`/admin-about/${about.id}/experience-education`}>
-                                    <Button className="bg-blue-500 text-white hover:bg-blue-600">
-                                        <BookUser size={20} />
-                                    </Button>
-                                </Link>
-                            </SimpleTooltip>
-
                             <Dialog>
-                                <SimpleTooltip content="Delete">
+                                <SimpleTooltip content="Delete ">
                                     <DialogTrigger asChild>
                                         <Button variant="destructive">
                                             <Trash2 size={20} />
@@ -84,16 +97,17 @@ export default function AboutAdmin() {
                                     </DialogTrigger>
                                 </SimpleTooltip>
                                 <DialogContent>
-                                    <DialogTitle>Are you sure you want to delete this about?</DialogTitle>
+                                    <DialogTitle>Are you sure you want to delete this experience education?</DialogTitle>
                                     <DialogDescription>
-                                        This action cannot be undone. This will permanently delete the about and remove it from the list.
+                                        This action cannot be undone. This will permanently delete the experience education and all of its associated
+                                        data.
                                     </DialogDescription>
 
                                     <div className="flex justify-end gap-2">
                                         <DialogTrigger asChild>
                                             <Button
                                                 onClick={() => {
-                                                    router.delete(route('admin.about.delete', about.id));
+                                                    router.delete(route('admin.experience-education.delete', experienceEducation.id));
                                                 }}
                                                 variant="destructive"
                                             >
@@ -110,10 +124,10 @@ export default function AboutAdmin() {
                     )}
                 />
                 <Pagination
-                    currentPage={abouts.current_page}
-                    lastPage={abouts.last_page}
-                    nextPageUrl={abouts.next_page_url}
-                    prevPageUrl={abouts.prev_page_url}
+                    currentPage={experienceEducations.current_page}
+                    lastPage={experienceEducations.last_page}
+                    nextPageUrl={experienceEducations.next_page_url}
+                    prevPageUrl={experienceEducations.prev_page_url}
                 />
             </div>
         </AppLayout>
