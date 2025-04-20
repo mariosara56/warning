@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import MainLayout from '@/layouts/main-layout';
-import { About, Expertise, Gallery, Quote, Writing } from '@/types';
+import { About, ExperienceEducation, Expertise, Gallery, Quote, Writing } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Link, usePage } from '@inertiajs/react';
 import { Instagram, Linkedin, Mail, MessageSquareDashed } from 'lucide-react';
@@ -9,6 +9,7 @@ import { Instagram, Linkedin, Mail, MessageSquareDashed } from 'lucide-react';
 export default function Home() {
     const { abouts } = usePage<{ abouts: PaginatedResponse<About> }>().props;
     const { expertises } = usePage<{ expertises: Expertise[] }>().props;
+    const { experienceEducations } = usePage<{ experienceEducations: ExperienceEducation[] }>().props;
     const { galleries } = usePage<{ galleries: PaginatedResponse<Gallery> }>().props;
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
     const { quotes } = usePage<{ quotes: Quote[] }>().props;
@@ -148,20 +149,31 @@ export default function Home() {
                         Experience & Education
                     </h2>
                     <div className="space-y-8">
-                        <Card className="p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900" data-aos="fade-up" data-aos-delay="0">
-                            <CardTitle>Position or Degree</CardTitle>
-                            <CardContent>
-                                <p>Company or Institution • 2020 - Present</p>
-                                <CardDescription>Description of your role, responsibilities, achievements, or your course of study.</CardDescription>
-                            </CardContent>
-                        </Card>
-                        <Card className="p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900" data-aos="fade-up" data-aos-delay="100">
-                            <CardTitle>Previous Position</CardTitle>
-                            <CardContent>
-                                <p>Company or Institution • 2020 - Present</p>
-                                <CardDescription>Description of your role, responsibilities, achievements, or your course of study.</CardDescription>
-                            </CardContent>
-                        </Card>
+                        {experienceEducations.map((item, index) => (
+                            <Card
+                                key={item.id}
+                                className="p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900"
+                                data-aos="fade-up"
+                                data-aos-delay={index * 100}
+                            >
+                                <CardTitle>{item.title}</CardTitle>
+                                <CardContent>
+                                    <p>
+                                        {item.company_institution} • {new Date(item.start_date).getFullYear()} -{' '}
+                                        {item.end_date ? new Date(item.end_date).getFullYear() : 'Present'}
+                                    </p>
+                                    <CardDescription className="mt-2">
+                                        {item.description}
+                                        {item.achievements_or_grade && <div className="mt-2">📌 {item.achievements_or_grade}</div>}
+                                        {item.skill_id && (
+                                            <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                                <strong>Skills:</strong> {item.skill?.name || 'Unnamed Skill'}
+                                            </div>
+                                        )}
+                                    </CardDescription>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
                 </div>
             </section>

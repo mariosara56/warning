@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\ExperienceEducation;
 use App\Models\Expertise;
 use App\Models\Gallery;
 use App\Models\Quote;
@@ -22,6 +23,10 @@ class HomeController extends Controller
             ->where('user_id', $abouts->first()->id)
             ->orderBy('created_at', 'desc')
             ->get();
+        $experienceEducations = ExperienceEducation::with(['skill'])
+            ->where('user_id', $abouts->first()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return inertia('home', [
             'abouts' => $abouts,
@@ -29,6 +34,7 @@ class HomeController extends Controller
             'writings' => $writings,
             'quotes' => $quotes,
             'expertises' => $expertises,
+            'experienceEducations' => $experienceEducations,
         ]);
     }
 }
