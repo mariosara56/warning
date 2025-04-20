@@ -90,7 +90,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
                                     <div className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 bg-[#19140035] transition-transform duration-500 group-hover:scale-x-100 dark:bg-white" />
                                 </Link>
 
-                                <Link
+                                {/* <Link
                                     href={route('register')}
                                     className="group relative inline-block px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:text-[#191400] dark:text-[#EDEDEC] dark:hover:text-white"
                                 >
@@ -99,7 +99,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
                                         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-[#19140035] dark:bg-white" />
                                     )}
                                     <div className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 bg-[#19140035] transition-transform duration-500 group-hover:scale-x-100 dark:bg-white" />
-                                </Link>
+                                </Link> */}
                             </>
                         )}
                     </nav>
