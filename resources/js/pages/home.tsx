@@ -13,6 +13,10 @@ export default function Home() {
     const { galleries } = usePage<{ galleries: PaginatedResponse<Gallery> }>().props;
     const { writings } = usePage<{ writings: PaginatedResponse<Writing> }>().props;
     const { quotes } = usePage<{ quotes: Quote[] }>().props;
+    const quoteCount = quotes?.length ?? 0;
+    const quoteGridClass = `grid gap-6 ${
+        quoteCount <= 1 ? 'md:grid-cols-1 md:justify-items-center' : quoteCount === 2 ? 'md:grid-cols-2 md:justify-items-center' : 'md:grid-cols-3'
+    }`;
 
     return (
         <MainLayout>
@@ -101,6 +105,7 @@ export default function Home() {
             </section>
 
             {/* Skills Section */}
+            {expertises.length > 0 && (
             <section className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
@@ -141,8 +146,10 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+            )}
 
             {/* Experience Section */}
+            {experienceEducations.length > 0 && (
             <section className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6 py-16">
                     <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
@@ -177,8 +184,10 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+            )}
 
             {/* Teaching Gallery Section */}
+            {galleries?.data?.length > 0 && (
             <section className="py-16 dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
@@ -212,8 +221,10 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+            )}
 
             {/* Writings Section */}
+            {writings?.data?.length > 0 && (
             <section className="container mx-auto max-w-7xl px-6 py-16 dark:text-gray-300">
                 <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
                     My Writings
@@ -237,14 +248,16 @@ export default function Home() {
                     ))}
                 </div>
             </section>
+            )}
 
             {/* Quotes Section */}
+            {quotes?.length > 0 && (
             <section className="bg-gray-50 py-16 dark:bg-[#121212] dark:text-gray-300">
                 <div className="container mx-auto max-w-7xl px-6">
                     <h2 className="mb-12 text-center text-3xl font-bold" data-aos="fade-down">
                         Inspiring Quotes
                     </h2>
-                    <div className="grid gap-6 md:grid-cols-3">
+                    <div className={quoteGridClass}>
                         {quotes?.map((item, index) => (
                             <Card
                                 className="flex flex-col justify-between p-6 transition hover:bg-neutral-200 dark:hover:bg-neutral-900"
@@ -259,6 +272,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+            )}
         </MainLayout>
     );
 }
