@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import WysiwygEditor from '@/components/wysiwyg-editor';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Writing } from '@/types';
-import { Input } from '@headlessui/react';
+import { Input, Textarea } from '@headlessui/react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
@@ -102,13 +102,14 @@ export default function WritingForm() {
                         <div className="grid gap-2">
                             <Label htmlFor="teaser">Teaser</Label>
 
-                            <Input
+                            <Textarea
                                 id="teaser"
                                 className="mt-1 block w-full"
                                 autoComplete="teaser"
                                 placeholder="Teaser"
                                 value={data.teaser}
                                 onChange={(e) => setData('teaser', e.target.value)}
+                            
                             />
                             <InputError className="mt-2" message={errors.teaser} />
                         </div>

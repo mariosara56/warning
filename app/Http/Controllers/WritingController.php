@@ -64,7 +64,7 @@ class WritingController extends Controller
 
         // Generate meta_title dan meta_description
         $metaTitle = $title . ($author ? " - $author" : '');
-        $metaDescription = $teaser . ($author ? " - ditulis oleh $author" : '');
+        $metaDescription = $title . ($author ? " - ditulis oleh $author" : '');
 
         // Upload thumbnail
         if ($request->hasFile('thumbnail')) {
@@ -146,7 +146,7 @@ class WritingController extends Controller
         $writing->teaser = $teaser;
         $writing->body = $request->input('body');
         $writing->meta_title = $title . ($author ? " - $author" : '');
-        $writing->meta_description = $teaser . ($author ? " - ditulis oleh $author" : '');
+        $writing->meta_description = $title . ($author ? " - ditulis oleh $author" : '');
         $writing->author = $author;
 
         $writing->save();
