@@ -36,11 +36,11 @@ export default function GalleryForm() {
 
         if (isEditMode) {
             post(route('admin.gallery.update', gallery.id), {
-                onFinish: () => reset('thumbnail', 'title', 'description'),
+                onSuccess: () => reset('thumbnail', 'title', 'description'),
             });
         } else {
             post(route('admin.gallery.store'), {
-                onFinish: () => reset('thumbnail', 'title', 'description'),
+                onSuccess: () => reset('thumbnail', 'title', 'description'),
             });
         }
     };

@@ -37,11 +37,11 @@ export default function QuoteForm() {
 
         if (isEditMode) {
             post(route('admin.quote.update', quote.id), {
-                onFinish: () => reset('author', 'quote', 'is_active'),
+                onSuccess: () => reset('author', 'quote', 'is_active'),
             });
         } else {
             post(route('admin.quote.store'), {
-                onFinish: () => reset('author', 'quote', 'is_active'),
+                onSuccess: () => reset('author', 'quote', 'is_active'),
             });
         }
     };

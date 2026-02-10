@@ -42,11 +42,11 @@ export default function ExpertiseForm() {
         e.preventDefault();
         if (isEditMode) {
             post(route('admin.expertise.update', { aboutId: about.id, id: expertise.id }), {
-                onFinish: () => reset('skill_id', 'level', 'years_of_experience', 'certified', 'notes'),
+                onSuccess: () => reset('skill_id', 'level', 'years_of_experience', 'certified', 'notes'),
             });
         } else {
             post(route('admin.expertise.store', about.id), {
-                onFinish: () => reset('skill_id', 'level', 'years_of_experience', 'certified', 'notes'),
+                onSuccess: () => reset('skill_id', 'level', 'years_of_experience', 'certified', 'notes'),
             });
         }
     };

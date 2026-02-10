@@ -34,11 +34,11 @@ export default function SkillForm() {
         e.preventDefault();
         if (isEditMode) {
             post(route('admin.skill.update', skill.id), {
-                onFinish: () => reset('name', 'category', 'type'),
+                onSuccess: () => reset('name', 'category', 'type'),
             });
         } else {
             post(route('admin.skill.store'), {
-                onFinish: () => reset('name', 'category', 'type'),
+                onSuccess: () => reset('name', 'category', 'type'),
             });
         }
     };

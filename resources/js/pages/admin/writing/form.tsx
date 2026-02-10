@@ -39,11 +39,11 @@ export default function WritingForm() {
         e.preventDefault();
         if (isEditMode) {
             post(route('admin.writing.update', writing.id), {
-                onFinish: () => reset('thumbnail', 'title', 'body', 'author'),
+                onSuccess: () => reset('thumbnail', 'title', 'body', 'author'),
             });
         } else {
             post(route('admin.writing.store'), {
-                onFinish: () => reset('thumbnail', 'title', 'body', 'author'),
+                onSuccess: () => reset('thumbnail', 'title', 'body', 'author'),
             });
         }
     };

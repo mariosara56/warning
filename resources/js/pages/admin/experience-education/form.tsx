@@ -55,7 +55,7 @@ export default function ExperienceEducationForm() {
                     id: experienceEducation.id,
                 }),
                 {
-                    onFinish: () =>
+                    onSuccess: () =>
                         reset(
                             'skill_id',
                             'type',

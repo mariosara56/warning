@@ -48,11 +48,11 @@ export default function AboutForm() {
 
         if (isEditMode) {
             post(route('admin.about.update', about.id), {
-                onFinish: () => reset('fullname', 'email', 'phone', 'instagram', 'linkedin', 'description', 'photo', 'work', 'is_active'),
+                onSuccess: () => reset('fullname', 'email', 'phone', 'instagram', 'linkedin', 'description', 'photo', 'work', 'is_active'),
             });
         } else {
             post(route('admin.about.store'), {
-                onFinish: () => reset('fullname', 'email', 'phone', 'instagram', 'linkedin', 'description', 'photo', 'work', 'is_active'),
+                onSuccess: () => reset('fullname', 'email', 'phone', 'instagram', 'linkedin', 'description', 'photo', 'work', 'is_active'),
             });
         }
     };
